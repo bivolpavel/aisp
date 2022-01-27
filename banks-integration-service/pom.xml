@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.spf.psd2</groupId>
+		<artifactId>psd2-finance-data-aggregator</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>banks-integration-service</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>banks-integration-service</name>
+	<description>Demo project for Spring Boot</description>
+	<properties>
+		<java.version>11</java.version>
+		<springfox-swagger.version>2.6.1</springfox-swagger.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>2.1.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.danlucian.psd2.ing</groupId>
+			<artifactId>oauth2-sdk</artifactId>
+			<version>0.0.2-SNAPSHOT</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>1.4.1.Final</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct-jdk8 -->
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct-jdk8</artifactId>
+			<version>1.4.1.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>3.0.0</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>2.6.5</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>9</source>
+					<target>9</target>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>1.4.1.Final</version>
+						</path>
+					</annotationProcessorPaths>
+					<compilerArgs>
+						<compilerArg>
+							-Amapstruct.unmappedTargetPolicy=IGNORE
+						</compilerArg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+
+
+		<profile>
+			<id>generate-accounts-api-client</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>io.swagger.codegen.v3</groupId>
+						<artifactId>swagger-codegen-maven-plugin</artifactId>
+						<version>3.0.8</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>generate</goal>
+								</goals>
+								<id>generate-sberbank-subscription-client</id>
+								<configuration>
+									<inputSpec>${project.basedir}/src/main/resources/specification/Account-Information-API-2.5.0.json</inputSpec>
+									<language>java</language>
+									<library>resttemplate</library>
+									<configOptions>
+										<interfaceOnly>true</interfaceOnly>
+										<java8>true</java8>
+										<dateLibrary>java8</dateLibrary>
+										<hideGenerationTimestamp>true</hideGenerationTimestamp>
+										<!--                                <serializableModel>true</serializableModel>-->
+									</configOptions>
+									<generateModelDocumentation>false</generateModelDocumentation>
+									<addCompileSourceRoot>true</addCompileSourceRoot>
+									<output>${project.basedir}</output>
+									<modelPackage>com.spf.psd2.banksintegrationservice.client.generated.model</modelPackage>
+									<apiPackage>com.spf.psd2.banksintegrationservice.client.generated.api</apiPackage>
+									<generateApis>true</generateApis>
+									<generateApiTests>false</generateApiTests>
+									<generateModelTests>false</generateModelTests>
+									<generateApiDocumentation>false</generateApiDocumentation>
+									<generateSupportingFiles>true</generateSupportingFiles>
+									<languageSpecificPrimitives>true</languageSpecificPrimitives>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>

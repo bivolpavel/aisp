@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: banks-integration-service
+server:
+  port: 8082
+  servlet:
+    context-path: /banks-integration-service
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+logging:
+  level:
+    com.spf.psd2: DEBUG
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
