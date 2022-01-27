@@ -1,0 +1,61 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+
+  main:
+    web-application-type: reactive
+    allow-bean-definition-overriding: true
+
+management:
+  trace:
+    http:
+      include: REQUEST_HEADERS, RESPONSE_HEADERS, PRINCIPAL, REMOTE_ADDRESS, TIME_TAKEN
+  health:
+    db:
+      enabled: false
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      enabled: true
+    threaddump:
+      enabled: true
+    metrics:
+      enabled: true
+    gateway:
+      enabled: true
+    web:
+      exposure:
+        include: gateway
+
+authentication:
+  service:
+    host: http://localhost:8083
+    verifyCodeEndpoint: auth-service/verify
+
+security:
+  basic:
+    enabled: false
+  jwt:
+    uri: /auth/**
+    header: Authorization
+    prefix: Bearer
+    expiration: 86400
+    secret: JwtSecretKey
+
